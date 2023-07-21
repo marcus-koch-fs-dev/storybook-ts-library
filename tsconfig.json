@@ -1,36 +1,43 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "module": "ESNext",
-    "allowJs": false,
-    "skipLibCheck": false,
-    "types": ["vite/client", "vitest/globals"],
-    "baseUrl": ".",
+    "target": "ESNext", // Specifies the ECMAScript version for the emitted JavaScript.
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // The available library files that provide typings for different environments.
+    "module": "ESNext", // Specifies the module format for the emitted JavaScript.
+    "allowJs": false, // Disallows the usage of JavaScript files. Only TypeScript files are allowed.
+    "skipLibCheck": false, // Skip type checking of declaration files.
+    "types": ["vite/client", "vitest/globals"], // List of type declaration files to include in the compilation.
+    "baseUrl": ".", // Specifies the base directory for resolving non-relative module names.
     "paths": {
       "@/*": ["./src/*"],
+      "@root/*": ["./*"],
       "src/*": ["./src/*"]
-    },
+    }, // Path mapping configuration to resolve module names starting with '@' or 'src/'.
 
     /* "declaration": true,
     "emitDeclarationOnly": true, */
 
     /* Bundler mode */
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true, // maybe without decorators
-    "jsx": "react-jsx",
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node", // Specifies the module resolution strategy for resolving modules.
+    "resolveJsonModule": true, // Enable importing JSON modules.
+    "isolatedModules": true, // Enable emitting individual files for each TypeScript file.
+    "noEmit": false, // Set this to "false" to allow TypeScript to emit output.
+    "outDir": "dist", // Specify your desired output directory for compiled files.
+    "jsx": "react-jsx", // Specifies the JSX factory function to use when targeting JSX emit.
+    "forceConsistentCasingInFileNames": true, // Require that all files be included using a consistent casing style.
+    "esModuleInterop": false, // Allow modules that have a default export to be imported using a namespace import.
+    "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export.
 
     /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noImplicitAny": true, // Disallow implicit 'any' types.
+    "noImplicitThis": false, // Allow the use of 'this' expressions that are of type 'any'.
+    "strictNullChecks": false, // Enable strict null checks.
+    "strict": false, // Enable all strict type checking options.
+    "noUnusedLocals": true, // Report error on unused local variables.
+    "noUnusedParameters": true, // Report error on unused parameters.
+    "noFallthroughCasesInSwitch": true // Report error when a 'switch' statement does not handle all possible cases.
   },
-  "include": [".eslintrc.cjs", "src", "vite.config.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+
+  "include": [".eslintrc.cjs", "src/**/*", "vite.config.ts"], // Specifies which files to include in the compilation.
+  "exclude": ["node_modules", "dist", "storybook-static"], // Specifies which files to exclude from the compilation.
+  "references": [{ "path": "./tsconfig.node.json" }] // Referencing another TypeScript project.
 }

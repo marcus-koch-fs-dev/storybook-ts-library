@@ -4,13 +4,13 @@
 /// <reference types="vite/client" />
 
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
-import path from 'path'
 import { fileURLToPath, URL } from 'url'
+import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), dts()],
   test: {
     globals: true,
     environment: 'jsdom',
@@ -21,8 +21,11 @@ export default defineConfig({
       {
         find: '@',
         replacement: fileURLToPath(new URL('./src', import.meta.url)),
-      } /*  '@': './src',
-      '@@': path.resolve(__dirname, './src'), */,
+      },
+      {
+        find: '@root',
+        replacement: fileURLToPath(new URL('./', import.meta.url)),
+      },
     ],
   },
   /* esbuild: {
