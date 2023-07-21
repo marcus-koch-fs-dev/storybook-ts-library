@@ -1,0 +1,103 @@
+// ESLint configuration file in JSON format with comments explaining each setting
+
+{
+  // Specifying the environments where the code will run (browser and ECMAScript 2020)
+  "env": { "browser": true, "es2020": true },
+
+  // Extending configurations from Airbnb and Airbnb TypeScript, which provide a set of ESLint rules
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+
+  // Using the @typescript-eslint/parser to parse TypeScript files
+  "parser": "@typescript-eslint/parser",
+
+  // Configuring parser options, such as the ECMAScript version and source type (module), and specifying the TypeScript project file (tsconfig.json)
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+
+  // Adding ESLint plugins for additional functionality
+  "plugins": ["react-refresh", "simple-import-sort"],
+
+  // Configuring ESLint rules to define how the code should be formatted and checked
+  "rules": {
+    "react-refresh/only-export-components": "warn", // Ignore warnings related to exporting components only
+    "import/extensions": 0, // Turn off the rule that enforces file extensions on imports
+    "react/react-in-jsx-scope": 0, // Turn off the rule that enforces importing React in JSX scope
+    "react/button-has-type": 0, // Turn off the rule that enforces providing a "type" attribute for buttons
+    "react/jsx-one-expression-per-line": 0, // Turn off the rule that enforces one expression per line in JSX
+    "@typescript-eslint/semi": 0, // Turn off the rule that enforces semicolons for TypeScript files
+    "comma-dangle": 0, // Turn off the rule that enforces adding a comma behind functions
+    "@typescript-eslint/comma-dangle": 0, // Turn off the rule that enforces adding a comma behind functions for TypeScript files
+    "react/require-default-props": 0, // Turn off the rule that requires default props for React components
+    "react/jsx-props-no-spreading": 0, // Turn off the rule that disallows using the spread operator (...) for passing props
+
+    // Set specific function component definitions to be allowed, including arrow functions, function declarations, and function expressions
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": [
+          "arrow-function",
+          "function-declaration",
+          "function-expression"
+        ],
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+
+    // Specify which dependencies should be considered extraneous for the project
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "examples/**",
+          "examples-native/**",
+          "**/example/**",
+          "*.js",
+          "**/*.test.js",
+          "**/*.stories.*",
+          "**/scripts/*.js",
+          "**/stories/**/*.js",
+          "**/__tests__/**/*.js",
+          "**/.storybook/**/*.*"
+        ],
+        "peerDependencies": true
+      }
+    ],
+
+    // Increase the severity of rules so they are auto-fixable
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
+  },
+
+  // Overrides specific settings for certain files
+  "overrides": [
+    // Override "simple-import-sort" config for JavaScript and TypeScript files
+    {
+      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      "rules": {
+        // Set the rule to enforce simple import sorting with specific groupings
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              ["^react", "^@?\\w"], // Packages `react` related packages come first.
+              ["^(@|components)(/.*|$)"], // Internal packages.
+              ["^\\u0000"], // Side effect imports.
+              ["^\\.\\.(?!/?$)", "^\\.\\./?$"], // Parent imports. Put `..` last.
+              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"], // Other relative imports. Put same-folder imports and `.` last.
+              ["^.+\\.?(css)$"] // Style imports.
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
