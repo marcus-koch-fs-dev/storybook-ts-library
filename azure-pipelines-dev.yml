@@ -1,0 +1,35 @@
+trigger:
+  - development
+
+variables:
+  - group: cloud_foundry_dev
+
+pool:
+  vmImage: "ubuntu-latest"
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "16.x"
+    displayName: "Install Node.js"
+
+  - task: CloudFoundryCLIInstall@0
+    inputs:
+      cfVersion: "8.3.0"
+
+  - script: |
+      cd genealogy-calculation
+      npm install
+    displayName: "npm install"
+
+  - script: |
+      cf install-plugin -f multiapps
+      echo "Login to Cloud Foundry, Org: $CF_ORG, Space: $CF_SPACE, User: $CF_USER"
+      cf login -a https://api.cf.eu20.hana.ondemand.com -u $CF_USER -p $CF_PASSWD -o $CF_ORG -s $CF_SPACE
+      cf push -f manifest.dev.yml
+    displayName: "Cloud Foundry PUSH"
+    env:
+      CF_ORG: $(cf_org)
+      CF_SPACE: $(cf_space)
+      CF_USER: $(cf_user)
+      CF_PASSWD: $(cf_password)

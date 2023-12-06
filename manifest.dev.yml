@@ -1,0 +1,14 @@
+applications:
+  - name: mis-scf-nodejs-genealogy-calculation
+    instances: 1
+    buildpacks:
+      - nodejs_buildpack
+    memory: 256M
+    routes:
+      - route: dev-mis-genealogy-calculation.cfapps.eu20.hana.ondemand.com
+    path: genealogy-calculation
+    timeout: 180
+    services:
+      - mis-xsuaa-mom
+      - logging
+      - hdi-scf-sql-genealogy-calculation

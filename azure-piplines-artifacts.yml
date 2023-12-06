@@ -1,0 +1,43 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - script: |
+      cd src
+      npm install
+    displayName: 'npm install'
+
+  - task: CopyFiles@2
+    displayName: copy npmrc file
+    inputs:
+      sourceFolder: 'npmrc'
+      Contents: '**'
+      targetFolder: './'
+      
+  - task: Npm@1
+    displayName: 'NPM CI'
+    inputs:
+      command: ci
+      verbose: false
+      workingDir: 'src'
+
+  - script: |
+      cd src
+      npm run build
+    displayName: 'npm install artifact packages and build'
+  
+  - task: npmAuthenticate@0
+    displayName: 'npmAuthenticate@0'
+    inputs:
+      workingFile: .npmrc
+
+
+  - task: Npm@1
+    displayName: 'Npm@1'
+    inputs:
+      command: publish
+      publishRegistry: useFeed
+      publishFeed: <FeedName>  
